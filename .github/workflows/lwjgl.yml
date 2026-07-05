@@ -155,7 +155,6 @@ jobs:
             libxkbcommon-dev:${{matrix.CROSS_ARCH}} \
             libdrm-dev:${{matrix.CROSS_ARCH}} \
             libgbm-dev:${{matrix.CROSS_ARCH}} \
-            libgl1-mesa-dev:${{matrix.CROSS_ARCH}} \
             libgles2-mesa-dev:${{matrix.CROSS_ARCH}} \
             libegl1-mesa-dev:${{matrix.CROSS_ARCH}} \
             libdbus-1-dev:${{matrix.CROSS_ARCH}} \
@@ -165,6 +164,10 @@ jobs:
             libpipewire-0.3-dev:${{matrix.CROSS_ARCH}} \
             libwayland-dev:${{matrix.CROSS_ARCH}} \
             libdecor-0-dev:${{matrix.CROSS_ARCH}}
+          if [ '${{matrix.ARCH}}' != 'riscv64' ]; then
+            DEBIAN_FRONTEND=noninteractive sudo apt-get -yq install \
+              libgl1-mesa-dev:${{matrix.CROSS_ARCH}}
+          fi
       - name: Configure build
         run: |
           export PKG_CONFIG_LIBDIR="/usr/lib/${{matrix.TRIPLET}}/pkgconfig:/usr/share/pkgconfig"
