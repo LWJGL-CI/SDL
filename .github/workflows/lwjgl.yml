@@ -198,12 +198,14 @@ jobs:
             libgles2-mesa-dev:${{matrix.CROSS_ARCH}} \
             libegl1-mesa-dev:${{matrix.CROSS_ARCH}} \
             libdbus-1-dev:${{matrix.CROSS_ARCH}} \
-            libibus-1.0-dev:${{matrix.CROSS_ARCH}} \
             libudev-dev:${{matrix.CROSS_ARCH}} \
             libthai-dev:${{matrix.CROSS_ARCH}} \
             libpipewire-0.3-dev:${{matrix.CROSS_ARCH}} \
             libwayland-dev:${{matrix.CROSS_ARCH}} \
             libdecor-0-dev:${{matrix.CROSS_ARCH}}
+      - name: Install IBus dependency
+        if: matrix.ARCH != 'riscv64'
+        run: DEBIAN_FRONTEND=noninteractive sudo apt-get -yq install libibus-1.0-dev:${{matrix.CROSS_ARCH}}
       - name: Configure build
         run: |
           export PKG_CONFIG_LIBDIR="/usr/lib/${{matrix.TRIPLET}}/pkgconfig:/usr/share/pkgconfig"
